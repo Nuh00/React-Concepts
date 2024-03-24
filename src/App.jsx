@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react"
 
 import './styles.css'
+import TodoList from "./TodoList"
 export default function App() {
 
   const [newTodoName, setNewTodoName] = useState("")
@@ -15,9 +16,23 @@ export default function App() {
     })
     setNewTodoName("")
   }
+  function deleteButton(id){
+    setTodos(currentTodos =>{
+      return currentTodos.filter(todo => todo.id !== id)
+    })
+  }
 
 
   function toggleButton(id,checked){
+    setTodos(currentTodos =>{
+      return currentTodos.map(todo =>{
+        if(todo.id === id){
+          return {...todo,isComplete:checked}
+        }
+        return todo
+      })
+    
+    })
     
   }
 
@@ -28,14 +43,8 @@ export default function App() {
     <ul>
       {todos.map(todo => {
         return(
-          <li className="list-item" key={todo.id}>
-        <label className="list-item-label">
-          <input type="checkbox" checked = {todo.isComplete}  data-list-item-checkbox  onChange={(e)=> toggleButton(todo.id,e.target.checked)}/>
-          <span data-list-item-text>{todo.name}</span>
-        </label>
-        <button data-button-delete>Delete</button>
-      </li>
-        )
+          <TodoList key={todo.id} {...todo} toggleButton={toggleButton} deleteButton={deleteButton}/>
+           )
       })}
     </ul>
 
