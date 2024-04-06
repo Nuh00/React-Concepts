@@ -65,3 +65,6 @@ export default function App() {
 
 }
 
+// Finished a todo list and undesrtanding 
+// how mapping works 
+
